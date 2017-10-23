@@ -62,13 +62,19 @@ def faces_to_vectors(inpath, modelpath, outpath, imgsize, batchsize=100):
     return len(results.keys())
 
 def vectors_to_plots(vectorpath, pltpath):
-    vector_file = open(vectorpath).read()
+    if os.path.isdir(pltpath) is not True:
+        return False
 
+    vector_file = open(vectorpath).read()
+    num_plotted = 0
     vector_data = json.loads(vector_file)
     for image_name in vector_data.iterkeys():
         plt.plot(vector_data[image_name])
         plt.savefig(pltpath + image_name)
         plt.close()
+        num_plotted += 1
+
+    return num_plotted
 
 def main():
     parser = argparse.ArgumentParser()
@@ -86,7 +92,13 @@ def main():
         print("No images were processed - are you sure that was the right path? [" + args.inpath + "]")
         return False
 
-    num_images_plotted = vectors_to_plots(args.outpath, args.pltpath)
+    if args.pltpath is not "":
+        num_images_plotted = vectors_to_plots(args.outpath, args.pltpath)
+        if num_images_plotted > 0:
+            print("Plotted " + str(num_images_plotted) + " face vectors to dir [" + args.pltpath + "]")
+        else:
+            print("No vectors were plotted - are you sure you provided a valid output path? [" + args.pltpath + "]")
+        return False
 
     return True
 
