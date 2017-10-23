@@ -2,6 +2,7 @@ import os
 import ntpath
 import argparse
 from sys import exit
+from matplotlib import pyplot as plt
 
 import json
 
@@ -60,6 +61,14 @@ def faces_to_vectors(inpath, modelpath, outpath, imgsize, batchsize=100):
 
     return len(results.keys())
 
+def vectors_to_plots(vectorpath, pltpath):
+    vector_file = open(vectorpath).read()
+
+    vector_data = json.loads(vector_file)
+    for image_name in vector_data.iterkeys():
+        plt.plot(vector_data[image_name])
+        plt.savefig(pltpath + image_name)
+        plt.close()
 
 def main():
     parser = argparse.ArgumentParser()
@@ -67,6 +76,7 @@ def main():
     parser.add_argument("--outpath", help="Full path to where you want the results JSON", type=str, required=True)
     parser.add_argument("--mdlpath", help="Where to find the Tensorflow model to use for the embedding", type=str, required=True)
     parser.add_argument("--imgsize", help="Size of images to use", type=int, default=160, required=False)
+    parser.add_argument("--pltpath", help="Full path to dir where you want the vector visualisations", type=str, required=False)
     args = parser.parse_args()
 
     num_images_processed = faces_to_vectors(args.inpath, args.mdlpath, args.outpath, args.imgsize)
@@ -75,6 +85,8 @@ def main():
     else:
         print("No images were processed - are you sure that was the right path? [" + args.inpath + "]")
         return False
+
+    num_images_plotted = vectors_to_plots(args.outpath, args.pltpath)
 
     return True
 
