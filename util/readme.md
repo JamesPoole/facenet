@@ -8,4 +8,4 @@ This Python 3.x utility ([face_vectors.py](face_vectors.py)) takes a folder of i
 - `--outpath` The full path for the results file, which will be in JSON format (filenames will be used as keys, with face embeddings as the values).
 - `--mdlpath` Where to find the Tensorflow model to use for the embedding
 - `--imgsize` Purely optional, defaults to 160 pixels.
--  --pltpath  The full path for the directory to store plot outputs. (Optional)
+- `--pltpath` The full path for the directory to store plot outputs. (Optional)
