@@ -62,6 +62,12 @@ def faces_to_vectors(inpath, modelpath, outpath, imgsize, batchsize=100):
     return len(results.keys())
 
 def vectors_to_plots(vectorpath, pltpath):
+    '''
+    Given path to the JSON file of face vectors, plot the vectors to individual files in the provided path
+    :param vectorpath: Full path to JSON file of face vectors
+    :param pltpath: Path to the directory to store the plot images
+    :return: Number of facial embeddings plotted
+    '''
     if os.path.isdir(pltpath) is not True:
         return False
 
